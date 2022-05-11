@@ -1,0 +1,20 @@
+{
+  "name": "daggerfall-electron",
+  "version": "1.0.0",
+  "description": "A Daggerfall launcher",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "npm run test"
+  },
+  "author": "Traces",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^18.2.2"
+  },
+  "dependencies": {
+    "@octokit/core": "^3.6.0",
+    "octonode": "^0.10.2",
+    "unzipper": "^0.10.11"
+  }
+}
