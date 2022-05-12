@@ -13,6 +13,13 @@ document.getElementById('dirs').addEventListener('click', (e) => {
         })
         containerDiv.appendChild(progressBar)
     })
+// const doneButton = document.getElementById("done")
+//     doneButton.classList.add("button-color")
+//     doneButton.addEventListener('click', (e) => { 
+//         e.preventDefault()
+//         console.log("clicked")
+//         window.electron.closeBrowserView()
+//     })
 
     const directoryName = document.createElement("p")
     window.electron.getDirectory((event, dir) => { 

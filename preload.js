@@ -1,4 +1,5 @@
-const { contextBridge, ipcRenderer, dialog, ipcMain } = require('electron');
+const { contextBridge, ipcRenderer, dialog, ipcMain, } = require('electron');
+const { http } = require('http');
 const { Octokit } = require("@octokit/core")
 const path = require('path')
 const unzipper = require('unzipper')
@@ -6,12 +7,60 @@ const octokit = new Octokit();
 const fs = require('fs');
 const request = require('request')
 const configFile = require('./config.json')
+const authFile = require("./client_secret_1020848075741-3mu6imcu0si18rc51urlb7qe1ientg8o.apps.googleusercontent.com(1).json")
+const { google } = require('googleapis');
+const auth = { 
+    client_id: authFile.installed.client_id,
+    client_secret: authFile.installed.client_secret,
+    redirect_uris: authFile.installed.redirect_uris,
+
+}
+const Oauth = new google.auth.OAuth2(auth.client_id, auth.client_secret, auth.redirect_uris[0]);
+const drive = google.drive({ version: 'v3', Oauth });
+
+
+const getDaggerFall = async () => { 
+    // const destination = fs.createWriteStream(configFile.defaultConfig.gamePath[0])
+    ipcRenderer.send('download-daggerfall', "https://drive.google.com/u/0/uc?id=0B0i8ZocaUWLGWHc1WlF3dHNUNTQ&export=download")
+    
+
+    // await drive.files.get({
+    //   fileId: fileId,
+    //   alt: 'media'
+    // })
+    //     .on('end', function () {
+    //       console.log('Done');
+    //     })
+    //     .on('error', function (err) {
+    //       console.log('Error during download', err);
+    //     })
+    //     .pipe(dest);
+
+    }
+
+    getDaggerFall()
+    
+
+
+//     // .on('end', function () {
+//     //     console.log('Done');
+//     //   })
+//     // .on('error', function (err) {
+//     //     console.log('Error during download', err);
+//     //   })
+//     // .pipe(destination);
+  
+// }
+// getDaggerFall()
 let progress = 0;
 
 const defaultConfig = { 
     gamePath: "/", 
     modsPath: "/"
 }
+
+
+
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
@@ -63,6 +112,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 console.log(err)
             })
     }, 
+    closeBrowserView: () => {
+        ipcRenderer.send('closeBrowserView')
+    },
+
+        getOriginalDaggerfallFiles: async () => { 
+        // 0B0i8ZocaUWLGWHc1WlF3dHNUNTQ
+        const result = await http.get("https://www.googleapis.com/drive/v3/files/0B0i8ZocaUWLGWHc1WlF3dHNUNTQ")
+    },
     getRelease: async () => { 
         // need to get current operating system and download the correct release asset
         const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
