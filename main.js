@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu, BrowserView } = require('electron');
+
 const { fs } = require('fs');
 const path = require('path')
 
@@ -16,7 +17,6 @@ const createWindow = () => {
             nodeIntegration: true, 
             preload: path.join(__dirname + '/preload.js'),
             contextIsolation: true,
-            javascript: true,
             
         },
         roundedCorners: true,
@@ -24,7 +24,7 @@ const createWindow = () => {
 
 
     });
-    win.loadFile('index.html');
+    win.loadURL('file://'+ __dirname + '/index.html');
    
 }
 
@@ -40,14 +40,13 @@ app.whenReady().then(() => {
 
             
         },
-        resizable: false
 
 
 
 
     });
 
-    win.loadFile('index.html');
+    win.loadURL('file://'+ __dirname + '/index.html');
 
 
         // otherwise file exists and we can load it
@@ -59,15 +58,20 @@ app.whenReady().then(() => {
         win.webContents.send('selected-dirs', result.filePaths)
       
     })
-    ipcMain.on('download-daggerfall', (event, arg) => {
+    ipcMain.on('sendToDownloadPage', (event, arg) => {
         console.log('open url', arg)
         const view = new BrowserWindow({
             width: 800,
             height: 600,
+            webPreferences: { 
+                nodeIntegration: false, 
+                preload: path.join(__dirname + '/preload.js'),
+                contextIsolation: true,
+            },
             resizable:false
             
         })
-        view.loadURL(arg)
+        view.loadURL('file://'+ __dirname + '/goback.html')
         
         const view2 = new BrowserView({ 
             width: 200, 
@@ -76,15 +80,30 @@ app.whenReady().then(() => {
             frame: false,
         })
         view2.setBounds({ x: 0, y: 200, width: 800, height: 600 })
-        view2.webContents.loadFile('goback.html')
+        view2.webContents.loadURL(arg)
         view.addBrowserView(view2)
-        view.addBrowserView(view2)
+        view.on('close', (e) => {
+            e.preventDefault()
+            view.hide()
+        })
         
        
         // console.log(view2.webContents.redirect)
-        ipcMain.on('closeBrowserView', (event, arg) => {
-            view.close()
+        ipcMain.on('closeDownloadPage', (event, arg) => {
+            view.hide()
         })
+    })
+    ipcMain.on('setMainExecuteable', async (event, arg) => {
+        const result = await dialog.showOpenDialog(win, {
+            properties: ['openFile'],
+            filters: [
+                { name: 'Executable', extensions: ['exe', 'app'] }
+            ], 
+            title: "choose main executeable"
+        })
+        
+        win.webContents.send('main-executeable', result.filePaths)
+
     })
    
     ipcMain.on('showProgress', async(event, arg) => { 
