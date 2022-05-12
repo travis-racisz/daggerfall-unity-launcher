@@ -1,10 +1,36 @@
-let newReleaseAvailable = false
+
 const body = document.querySelector('body')
-const checkForUpdate = document.createElement("button")
-checkForUpdate.innerText = "Check for update"
+const checkForUpdate = document.getElementById("update")
 checkForUpdate.addEventListener('click', () => {
-        newReleaseAvailable = window.electron.checkForNewRelease('checkForUpdate')
-    })
+    const announcmentElement = document.createElement('h2')
+    announcmentElement.id = "new-announcement"
+        if(body.contains(document.getElementById('new-announcement'))) {
+            body.removeChild(document.getElementById('new-announcement'))
+        }
+        window.electron.checkForNewRelease('checkForUpdate')
+            .then(res => { 
+                if(res){
+                    announcmentElement.innerText = "New release available"
+                    body.appendChild(announcmentElement)
+                } else { 
+                    announcmentElement.innerText = "No new release available"
+                    body.appendChild(announcmentElement)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+           
+        })
+
+        const launchGame = document.getElementById("launch-game")
+        launchGame.addEventListener('click', () => {
+            window.electron.launchGame()
+        })
+        
+        
+    
+
 
 document.getElementById('dirs').addEventListener('click', (e) => {
     e.preventDefault()
@@ -13,13 +39,12 @@ document.getElementById('dirs').addEventListener('click', (e) => {
         })
         containerDiv.appendChild(progressBar)
     })
-// const doneButton = document.getElementById("done")
-//     doneButton.classList.add("button-color")
-//     doneButton.addEventListener('click', (e) => { 
-//         e.preventDefault()
-//         console.log("clicked")
-//         window.electron.closeBrowserView()
-//     })
+
+    document.getElementById('df-download').addEventListener('click', (e) => {
+        e.preventDefault()
+        window.electron.sendToDownloadPage()
+    })
+
 
     const directoryName = document.createElement("p")
     window.electron.getDirectory((event, dir) => { 
@@ -48,7 +73,7 @@ document.getElementById('dirs').addEventListener('click', (e) => {
 
     const currentRelease = document.createElement("p")
     const containerDiv = document.getElementsByClassName("small-col-flex")[0]
-    currentRelease.innerHTML = "Current Release: " + window.electron.getCurrentRelease()
+    currentRelease.innerHTML = "Current Downloaded Version: " + window.electron.getCurrentRelease()
     containerDiv.appendChild(currentRelease)
     body.appendChild(directoryName)
     currentRelease.classList.add("text");

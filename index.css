@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Koulen&family=Roboto&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Koulen&family=Roboto&display=swap'); */
 
 body {
     background-color: rgb(27, 27, 27);
@@ -69,7 +69,8 @@ body {
     color: whitesmoke;
     border: 2px solid whitesmoke;
     border-radius: 500px;
-    width: 150px;
+    font-size: 14px;
+    width: 120px;
     margin: 5px;
     height: 50px;
     transition: 0.3s all ease;
@@ -94,4 +95,9 @@ body {
     margin: 5px;
     border: 2px solid whitesmoke;
     border-radius: 1000px;
+}
+
+.button-color{ 
+    background-color: rgb(73, 73, 73);
+    color: whitesmoke;
 }
