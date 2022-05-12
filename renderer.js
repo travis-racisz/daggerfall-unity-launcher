@@ -11,7 +11,7 @@ document.getElementById('dirs').addEventListener('click', (e) => {
     window.postMessage({ 
             type: 'select-dirs'
         })
-        body.appendChild(progressBar)
+        containerDiv.appendChild(progressBar)
     })
 
     const directoryName = document.createElement("p")
@@ -40,7 +40,9 @@ document.getElementById('dirs').addEventListener('click', (e) => {
     })
 
     const currentRelease = document.createElement("p")
-    currentRelease.innerHTML = "current release: " + window.electron.getCurrentRelease()
-    body.appendChild(currentRelease)
+    const containerDiv = document.getElementsByClassName("small-col-flex")[0]
+    currentRelease.innerHTML = "Current Release: " + window.electron.getCurrentRelease()
+    containerDiv.appendChild(currentRelease)
     body.appendChild(directoryName)
+    currentRelease.classList.add("text");
     
