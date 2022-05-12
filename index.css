@@ -1,16 +1,97 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Koulen&family=Roboto&display=swap');
+
+body {
+    background-color: rgb(27, 27, 27);
+    color: whitesmoke;
+}
+
 .title-flex {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background-color:rgb(73, 73, 73);
+    margin: 5px;
+    margin-bottom: 10px;
+}
+
+.small-col-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.hr {
+    width: 80%;
+    height: 2px;
+
+    background-color: gray;
+}
+
+.title-text {
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 1px solid white;
+}
+
+body {
+    margin: 5px;
 }
 
 .desc-flex {
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color:rgb(73, 73, 73);
+    margin: 5px;    
+    border: none;
 }
 
-.button-color{ 
-    background-color: #00a8ff;
-    color: #fff;
+.text {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    text-shadow: 1px solid white;
+}
+
+.button {
+    text-align: center;
+    background-color: rgb(73, 73, 73);
+    color: whitesmoke;
+    border: 2px solid whitesmoke;
+    border-radius: 500px;
+    width: 150px;
+    margin: 5px;
+    height: 50px;
+    transition: 0.3s all ease;
+}
+
+.button:hover {
+ background-color: rgba(245, 245, 245, 0.503);
+ color: black;
+ cursor: pointer;
+}
+
+.button-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.art {
+    object-fit: cover;
+    width: 150px;
+    margin: 5px;
+    border: 2px solid whitesmoke;
+    border-radius: 1000px;
 }

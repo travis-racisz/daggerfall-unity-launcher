@@ -30,6 +30,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => { 
     const win = new BrowserWindow({
+        resizable: false,
         width: 800,
         height: 600,
         webPreferences: {
