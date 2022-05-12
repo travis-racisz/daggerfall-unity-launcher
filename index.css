@@ -1,0 +1,11 @@
+.title-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.desc-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

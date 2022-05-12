@@ -3,12 +3,19 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <link rel="stylesheet" href="index.css">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>Daggerfall Launcher</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <div class="title-flex">
+    <h1>Daggerfall Unity Installer and Updater</h1>
+    </div>
+    <div class="desc-flex">
+    <p>Use this as a tool to launch Daggerfall Unity, it will check to see if a new version of Daggerfall Unity is available and update automatically</p>
+    <img src="/assets/logo.png"></img>
+    </div>
     We are using Node.js <span id="node-version"></span>,
     Chromium <span id="chrome-version"></span>,
     and Electron <span id="electron-version"></span>.

@@ -30,12 +30,14 @@ document.getElementById('dirs').addEventListener('click', (e) => {
             progressBar.setAttribute("value", event.data[1])
         }
     })
-    if(progressBar.value === 100){
-        body.removeChild(progressBar)
-        const success = document.createElement("p")
-        success.innerHTML = "success!"
-        body.appendChild(success)
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        if(progressBar.value >= 100){
+            body.removeChild(progressBar)
+            const success = document.createElement("p")
+            success.innerHTML = "success!"
+            body.appendChild(success)
+        }
+    })
 
     const currentRelease = document.createElement("p")
     currentRelease.innerHTML = "current release: " + window.electron.getCurrentRelease()
