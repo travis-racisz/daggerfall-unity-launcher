@@ -1,66 +1,44 @@
-// const dialogConfig = {
-//     title: 'Select a file',
-//     buttonLabel: 'This one will do',
-//     properties: ['openDirectory']
-// };
-let data;
+let newReleaseAvailable = false
+const body = document.querySelector('body')
+const checkForUpdate = document.createElement("button")
+checkForUpdate.innerText = "Check for update"
+checkForUpdate.addEventListener('click', () => {
+        newReleaseAvailable = window.electron.checkForNewRelease('checkForUpdate')
+    })
 
-// const github = require('octonode');
-// const client = github.client();
 document.getElementById('dirs').addEventListener('click', (e) => {
     e.preventDefault()
     window.postMessage({ 
             type: 'select-dirs'
         })
+        body.appendChild(progressBar)
     })
 
     const directoryName = document.createElement("p")
     window.electron.getDirectory((event, dir) => { 
-        console.log(dir)
         directoryName.innerHTML = dir
         window.electron.getRelease()
         .then(res => {
-            console.log(res, 'res')
                 window.electron.getRemoteFile(res.name, res.browser_download_url, dir)
             })
     })
-    const body = document.querySelector('body')
+    const progressBar = document.createElement("progress")
+    progressBar.setAttribute("max", 100)
+    progressBar.setAttribute("value", 0)
+    window.addEventListener('message', event => {
+        if (event.data[0] === 'showProgress') {
+            progressBar.setAttribute("value", event.data[1])
+        }
+    })
+    if(progressBar.value === 100){
+        body.removeChild(progressBar)
+        const success = document.createElement("p")
+        success.innerHTML = "success!"
+        body.appendChild(success)
+    }
+
+    const currentRelease = document.createElement("p")
+    currentRelease.innerHTML = "current release: " + window.electron.getCurrentRelease()
+    body.appendChild(currentRelease)
     body.appendChild(directoryName)
-
-// fileInput.getFile(async (event) => {
-//         event.preventDefault()
-//         window.electron.getFile()
-//     })
-// fileInput.addEventListener('click', async function(e) {
     
-//     dialog.showOpenDialog({
-//         properties: ['openDirectory']
-//     }).then(result => {
-//         if (result.canceled) {
-//             console.log('User canceled the dialog')
-//         } else {
-//             console.log(result.filePaths)
-//             const folder = result.filePaths[0]
-//             console.log(result)
-//         }
-//     })
-// })
-
-// fileInput.multiple = false
-
-// client.get('/users/travis-racisz', (err, status, body, headers) => {
-//     console.log(body);
-//     })
-
-
-
-
-
-
-
-// getRelease()
-//     .then(async res => { 
-//       res.data.assets.forEach(asset => { 
-//             getRemoteFile(asset.name, asset.browser_download_url)
-//             })
-//     })

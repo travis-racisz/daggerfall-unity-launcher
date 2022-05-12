@@ -1,5 +1,8 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { fs } = require('fs');
 const path = require('path')
+
+
 
 
 
@@ -39,11 +42,12 @@ app.whenReady().then(() => {
 
 
 
+
     });
     win.loadFile('index.html');
-    // ipcMain.handle('dialog', (event, method, params) => {
-    //     dialog[method](params)
-    // })
+
+
+        // otherwise file exists and we can load it
     ipcMain.on('select-dirs', async (event, arg) => {
         const result = await dialog.showOpenDialog(win, {
           properties: ['openDirectory']
@@ -51,6 +55,11 @@ app.whenReady().then(() => {
         console.log('directories selected', result.filePaths)
         win.webContents.send('selected-dirs', result.filePaths)
       
+    })
+
+    ipcMain.on('showProgress', async(event, arg) => { 
+        console.log(arg)
+        win.webContents.send('showProgress', arg)
     })
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

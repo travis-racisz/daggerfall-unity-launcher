@@ -5,6 +5,13 @@ const unzipper = require('unzipper')
 const octokit = new Octokit();
 const fs = require('fs');
 const request = require('request')
+const configFile = require('./config.json')
+let progress = 0;
+
+const defaultConfig = { 
+    gamePath: "/", 
+    modsPath: "/"
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
@@ -28,11 +35,19 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         })
     })
+    //create a config file to be read when the program is launched
+    const pathToConfig = './config.json'
+    fs.access(pathToConfig, fs.constants.F_OK, (err) => {
+        if(err){ 
+            console.log("no config file")
+            fs.writeFile(pathToConfig, JSON.stringify(defaultConfig), (err) => {
+                if (err) throw err;
+                console.log('The file has been saved!');
+            })
+        }
+    }) 
 
   contextBridge.exposeInMainWorld('electron', {
-    // openDialog: (method, config) => { 
-    //       ipcRenderer.invoke('dialog', method, config)
-    //   },
     getFile: (file) => {
         ipcRenderer.send('getFile', file)
         dialog.showOpenDialog({ 
@@ -52,6 +67,11 @@ window.addEventListener('DOMContentLoaded', () => {
         // need to get current operating system and download the correct release asset
         const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
         const platform = process.platform
+        defaultConfig.release = release.data.name
+        fs.writeFile(pathToConfig, JSON.stringify({defaultConfig}, null, 2), (err) => {
+            if(err) throw err;
+            console.log('The file has been saved!');
+        })
         if(platform === 'win32') {
             return release.data.assets.find(asset => asset.name.includes('windows'))
         }
@@ -62,14 +82,21 @@ window.addEventListener('DOMContentLoaded', () => {
             return release.data.assets.find(asset => asset.name.includes('linux'))
         }
     }, 
-    showProgress: (file, cur, len, total) => {
-        // show the progress of the download
-        console.log("Downloading " + file + " - " + (100.0 * cur / len).toFixed(2) 
-            + "% (" + (cur / 1048576).toFixed(2) + " MB) of total size: " 
-            + total.toFixed(2) + " MB");
+    getCurrentRelease: () => {
+        return configFile.defaultConfig.release
+    },
+    checkForNewRelease: async() => { 
+        const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
+        if(release.data.name !== configFile.defaultConfig.release){ 
+            return true
+        }
+    },
+    showProgress: (event, progress) => {
+        return progress
     }, 
     getRemoteFile: (file, url, path) =>{ 
         console.log(file, url, path)
+       
         // gets the file from the url
         request.get(url)
             .on('response', function(response) {
@@ -78,16 +105,40 @@ window.addEventListener('DOMContentLoaded', () => {
             .pipe(fs.createWriteStream(`${path}/${file}`))
             .on('finish', () => { 
                 console.log(path, file)
-                fs.createReadStream(`${path}/${file}`)
-                    .pipe(unzipper.Extract({ path: `${path}` }));
+                const unzip = fs.createReadStream(`${path}/${file}`)
+                unzip.pipe(unzipper.Extract({ path: `${path}` }));
+                let { size } = fs.statSync(`${path}/${file}`);
+                unzip.on('data', (data) => { 
+                    progress += data.length;
+                    window.postMessage(['showProgress', (progress/size*100).toFixed(2)])
+                    // ipcRenderer.on('showProgress', (event, progress) => (progress/size*100).toFixed(2))
+                    // `written ${written} of ${size} bytes (${(written/size*100).toFixed(2)}%)`
+                })
+                unzip.on('end', () => {
+                    console.log("unzipped")
+                    fs.unlink(`${path}/${file}`, (err) => {
+                        if (err) throw err;
+                        console.log('successfully deleted');
+                    })
+                })
+                        
+                    
             })
             
             
     },
     getDirectory: (func) => {
         // gets the directory
-       
-        ipcRenderer.on('selected-dirs',(event, dir) => func(event, dir))
+        
+        ipcRenderer.on('selected-dirs', (event, dir) => { 
+            func(event, dir)
+            defaultConfig.gamePath = dir
+            fs.writeFile(pathToConfig, JSON.stringify({defaultConfig}, null, 2), (err) => {
+                if(err) throw err;
+                console.log('The file has been saved!');
+            })
+        
+        })
         
     }
     })
