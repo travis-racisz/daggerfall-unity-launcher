@@ -18,14 +18,23 @@
       <div class="small-col-flex">
         <p class="text">Choose which folder you want to download Daggerfall Unity to.</p>
         <div class="button-flex">
-        <button class="button" type="button" id="dirs" value="Download Daggerfall Unity">Download Daggerfall Unity</button>
-        <button class="button" type="button" id="launch-game" value="Launch Game">Launch Game</button>
-        <button class="button" type="button" id="dirs" value="View Mods">View Mods</button>
-        <button class="button" id = "df-download">Download Daggerfall</button>
+        
+        <div id="download-container" class="download-container">
+          <h3>If this is your first time downloading Daggerfall Unity, first download the orignal Daggerfall files from google driver here:</h3>
+          <button class="button" id = "df-download">Download Daggerfall</button>
+          <progress id = "progress" class="hidden"></progress>
+          <p id = "download-message" class="hidden"></p>
+        </div>  
+        <!-- <button class="button" type="button" id="dirs" value="Download Daggerfall Unity">Download Daggerfall Unity</button> -->
+        <div id = "launch-game-container" class="download-container"> 
+          <button class="button" type="button" id="launch-game" value="Launch Game">Launch Game</button>
+
+        </div>
+        <button class="button" type="button" id="mods" value="View Mods">View Mods</button>
         </div>
         <button id = "update" class="button">Check For Update</button>
       </div>
-      <img class="art" src="assets/art.gif"></img>
+      <!-- <img class="art" src="assets/art.gif"></img> -->
       
   </div> 
 </body>

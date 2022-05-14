@@ -75,6 +75,24 @@ body {
     height: 50px;
     transition: 0.3s all ease;
 }
+.hidden {
+    display: none;
+}
+.visable{ 
+    display: block;
+}
+
+
+.download-container{ 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: none;
+}
 
 .button:hover {
  background-color: rgba(245, 245, 245, 0.503);
@@ -84,7 +102,7 @@ body {
 
 .button-flex {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
