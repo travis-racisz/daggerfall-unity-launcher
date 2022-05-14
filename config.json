@@ -1,8 +1,8 @@
 {
   "defaultConfig": {
-    "gamePath": "C:\\Users\\traci\\Desktop\\daggerfall",
+    "gamePath": "",
     "modsPath": "",
     "executeable": "",
-    "release": "Daggerfall Unity 0.13.5 Beta"
+    "release": ""
   }
 }
