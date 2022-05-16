@@ -4,6 +4,7 @@ const path = require('path')
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2
 const drive = google.drive('v3')
+const credentials = require("./credentials.json")
 const http = require('http');
 const URL = require('url');
 const unzipper = require('unzipper')
@@ -11,11 +12,10 @@ const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = './token.json';
 require('dotenv').config()
 
-
 const oauth2client = new OAuth2({ 
-    clientId: process.env.client_id,
-    clientSecret: process.env.client_secret,
-    redirectUri: process.env.redirect_uris,
+    clientId: credentials.client_id,
+    clientSecret: credentials.client_secret,
+    redirectUri: credentials.redirect_uris,
 })
  
 let unzipProgress = 0
@@ -56,10 +56,8 @@ app.whenReady().then(() => {
             
         },
     });
-
-    win.openDevTools()
-    win.on('closed', () => { 
-        tokenBrowser.close()
+    win.on('close', () => { 
+        app.quit()
     })
 
     const tokenBrowser = new BrowserWindow({ 

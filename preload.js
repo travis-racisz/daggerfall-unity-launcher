@@ -58,7 +58,6 @@ let unzipProgress = 0
 
     getRelease: async () => { 
 
-        // need to get current operating system and download the correct release asset
         const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
         const platform = process.platform
         defaultConfig.release = release.data.name
@@ -108,8 +107,7 @@ let unzipProgress = 0
                     unzipProgress += data.length
                     
                     window.postMessage(['showProgress', (unzipProgress/size*100).toFixed(2)])
-                    // ipcRenderer.on('showProgress', (event, progress) => (progress/size*100).toFixed(2))
-                    // `written ${written} of ${size} bytes (${(written/size*100).toFixed(2)}%)`
+
                 })
                 unzip.on('end', () => {
 

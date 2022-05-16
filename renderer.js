@@ -108,7 +108,7 @@ dfDownload.addEventListener('click', (e) => {
     
     launchingGame.id = 'launching-game'
     window.addEventListener('message', event => {
-        console.log(event.data)
+        console.log(event)
         if (event.data === 'launching-game') {
             launchingGame.innerText = "Launching game"
             launchGameContainer.appendChild(launchingGame)
