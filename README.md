@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/travis_racisz/repo_name">
-    <img src="https://ibb.co/VxPGHjY" alt="Logo" width="80" height="80">
+    <img src="https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/assets/daggerfalllauncher.png?raw=true" alt="Logo" width="120" height="240">
   </a>
 
 <h3 align="center">Daggerfall Unity Launcher</h3>
