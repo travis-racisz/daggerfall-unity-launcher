@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][contributors-url]
+[![Contributors][contributors-shield]][[contributors-url](https://github.com/travis-racisz/daggerfall-unity-launcher/graphs/contributors)]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
