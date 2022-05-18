@@ -4,23 +4,36 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <link rel="stylesheet" href="index.css">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' *.fontawesome.com; script-src
+    https://use.fontawesome.com
+    https://kit.fontawesome.com;
+  style-src
+    *.fontawesome.com;
+  font-src
+    data:
+    *.fontawesome.com;
+  connect-src
+    *.fontawesome.com;"> -->
     <title>Daggerfall Launcher</title>
+    <script src="https://kit.fontawesome.com/34ac490c52.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="title-flex">
     <h1 class="title-text">Daggerfall Unity Installer and Updater</h1>
-    <div class="hr"></div>
-    <p class="text">Use this as a tool to launch Daggerfall Unity, it will check to see if a new version of Daggerfall Unity is available and update automatically.</p>
   </div>
     <div class="desc-flex">
       <div class="small-col-flex">
-        <p class="text">Choose which folder you want to download Daggerfall Unity to.</p>
         <div class="button-flex">
         
         <div id="download-container" class="download-container">
-          <h3>If this is your first time downloading Daggerfall Unity, first download the orignal Daggerfall files from google driver here:</h3>
+          <div id = "currently-installed" class="currently-installed">
+            <p id = "current-release"></p>
+            <div id = "folder-tooltip" class="tooltip">
+              <span class="tooltiptext">Update game files directory</span>
+            </div>
+            </div>  
+
+          </div>
           <button class="button" id = "df-download">Download Daggerfall</button>
           <progress id = "progress" class="hidden"></progress>
           <p id = "download-message" class="hidden"></p>
@@ -30,9 +43,11 @@
           <button class="button" type="button" id="launch-game" value="Launch Game">Launch Game</button>
 
         </div>
-        <button class="button" type="button" id="mods" value="View Mods">View Mods</button>
-        </div>
+        <div id = "update-container" class="update-container">
+          <button class="button" type="button" id="mods" value="View Mods">Update Game</button>
+        </div> 
         <button id = "update" class="button">Check For Update</button>
+        </div>
       </div>
       <!-- <img class="art" src="assets/art.gif"></img> -->
       

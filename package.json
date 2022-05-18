@@ -1,5 +1,5 @@
 {
-  "name": "daggerfall-electron",
+  "name": "daggerfall-unity-launcher",
   "version": "1.0.0",
   "description": "A Daggerfall launcher",
   "main": "./main.js",
@@ -13,6 +13,15 @@
     "productName": "Daggerfall-unity-launcher",
     "directories": {
       "output": "build"
+    }, 
+    "mac": {
+      "icon": "./assets/icon.png"
+    },
+    "win": {
+      "icon": "./assets/icon"
+    },
+    "linux": {
+      "icon": "./assets/icon.png"
     }
   },
   "afterSign": "scripts/notarize.js",
@@ -31,21 +40,25 @@
     "@octokit/core": "^3.6.0",
     "dotenv": "^16.0.1",
     "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.18.1",
     "googleapis": "^39.2.0",
+    "node-fetch": "^3.2.4",
     "node-google-drive": "^1.1.2",
-    "node-polyfill-webpack-plugin": "^1.1.4",
     "octonode": "^0.10.2",
     "request-progress": "^3.0.0",
     "unzipper": "^0.10.11"
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "C:/Users/traci/Dev/daggerfall-electron/assets/logo.ico"
+      },
       "makers": [
         {
-          "name": "@electron-forge/maker-zip",
+          "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "daggerfall_electron"
+            "setupIcon": "C:/Users/traci/Dev/daggerfall-electron/assets/logo.ico",
+            "name": "daggerfall-unity-launcher"
           }
         },
         {
@@ -63,7 +76,7 @@
           "config": {}
         }
       ],
-      "hooks": "require:scripts/generateAssets.js"
+      "hooks": "require:./scripts/generateAssets.js"
     }
   }
 }

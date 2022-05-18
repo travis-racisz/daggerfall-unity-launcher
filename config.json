@@ -1,8 +1,1 @@
-{
-  "defaultConfig": {
-    "gamePath": "",
-    "modsPath": "",
-    "executeable": "",
-    "release": "Daggerfall Unity 0.13.5 Beta"
-  }
-}
+{"defaultConfig":{"gamePath":"","modsPath":"","executeable":""}}

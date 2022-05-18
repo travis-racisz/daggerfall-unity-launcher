@@ -1,7 +1,7 @@
 
 
-const pathToConfig = './config.json'
-const configFile = require('./config.json')
+const pathToConfig = `${__dirname}/config.json`
+const configFile = require(`${__dirname}/config.json`)
 const { contextBridge, ipcRenderer, dialog, } = require('electron');
 const { Octokit } = require("@octokit/core")
 const progress = require('request-progress');
@@ -38,12 +38,40 @@ let unzipProgress = 0
 
   contextBridge.exposeInMainWorld('electron', {
     launchGame: () => { 
-        window.postMessage('launching-game')
-            const rawData = fs.readFileSync('./config.json', 'utf8') 
-            const data = JSON.parse(rawData)
-                    fs.writeFile('./launchgame.bat', `START ${data?.defaultConfig.gamePath}\\DaggerfallUnity.exe`, (err) => {
-                        if (err) throw err;
-                        child_process.exec(__dirname + '/launchgame.bat', function(err, stdout, stderr) { 
+        if(configFile.defaultConfig.executeable){ 
+            child_process.exec(`START ${configFile.defaultConfig.executeable}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
+                if (!err) {
+                    console.log(err)
+                }
+                ipcRenderer.send('launched-game')
+                window.postMessage('launched-game')
+                
+            })
+            return
+        }
+        if(!configFile.defaultConfig.gamePath) {
+            console.log('fired')
+            ipcRenderer.send('game exe not found')
+            ipcRenderer.on('Pointed to exe file', (event, path) => { 
+                console.log('path', path)
+                configFile.defaultConfig.executeable = path
+                fs.writeFileSync(pathToConfig, JSON.stringify(configFile))
+                child_process.exec(`START ${path}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
+                    if (!err) {
+                        console.log(err)
+                    }
+                    ipcRenderer.send('launched-game')
+                    window.postMessage('launched-game')
+                    
+                })
+            })
+            return
+        } 
+        if(configFile.defaultConfig.gamePath) { 
+            window.postMessage('launching-game')
+                const rawData = fs.readFileSync(pathToConfig, 'utf8') 
+                const data = JSON.parse(rawData)
+                        child_process.exec(`START ${data?.defaultConfig.gamePath}\\DaggerfallUnity.exe`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
                             if (!err) {
                                 console.log(err)
                             }
@@ -51,10 +79,9 @@ let unzipProgress = 0
                             window.postMessage('launched-game')
                             
                         })
-                        
-                  })
-            
-            },
+                    return
+            }   
+    },
 
     getRelease: async () => { 
 
@@ -76,16 +103,18 @@ let unzipProgress = 0
         }
     }, 
     getCurrentRelease: () => {
-       if(!configFile.defaultConfig.release){ 
-              return "No release found"
+       if(!configFile.defaultConfig.gamePath){ 
+              return "No download"
          } else {
-                return configFile.defaultConfig.release
+                return configFile.defaultConfig.gamePath
        }
     },
     checkForNewRelease: async() => { 
         const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
-        if(release.data.name !== configFile?.defaultConfig.release){ 
+        if(release.data.name !== configFile.defaultConfig.release){ 
             return true
+        } else { 
+            return false
         }
     },
     getRemoteFile: (file, url, path) =>{  
@@ -127,6 +156,20 @@ let unzipProgress = 0
             })
             
             
+    },
+    updateGameFilesDirectory: () => { 
+        ipcRenderer.send("update game files directory")
+        ipcRenderer.on('updated game files directory', (event, arg) => { 
+            console.log(arg)
+           configFile.defaultConfig.gamePath = arg
+            fs.writeFile(pathToConfig, JSON.stringify(configFile, null, 2), (err) => { 
+                if(err) throw err;
+            })
+            window.postMessage(['updated game files directory', arg])
+        })
+    },
+    getDownloadPath: () => { 
+        return configFile.defaultConfig.gamePath
     },
     downloadFile: (func) => { 
         ipcRenderer.send('download-file')

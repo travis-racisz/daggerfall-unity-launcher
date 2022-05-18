@@ -15,5 +15,6 @@ module.exports = {
         if(!fs.existsSync(`${path}/config.json`)) {
             fs.writeFileSync(`${path}/config.json`, JSON.stringify(defaultConfig))
         }
-    }   
+    }, 
+    
 }

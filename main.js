@@ -1,23 +1,35 @@
-const { app, BrowserWindow, ipcMain, dialog, } = require('electron');
+
+const { app, BrowserWindow, ipcMain, dialog, ipcRenderer, } = require('electron');
 const fs = require('fs');
 const path = require('path')
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2
 const drive = google.drive('v3')
-const credentials = require("./credentials.json")
+const credentials = require('./credentials.json')
 const http = require('http');
+const https = require('https');
 const URL = require('url');
 const unzipper = require('unzipper')
-const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = './token.json';
 require('dotenv').config()
+if(require('electron-squirrel-startup')) app.quit();
 
-const oauth2client = new OAuth2({ 
+console.log(app.getAppPath())
+
+const oauth2Client = new OAuth2({ 
     clientId: credentials.client_id,
     clientSecret: credentials.client_secret,
     redirectUri: credentials.redirect_uris,
 })
- 
+
+const url = oauth2Client.generateAuthUrl({ 
+    access_type: 'offline',
+    scope: 'https://www.googleapis.com/auth/drive'
+})
+
+
+
+
 let unzipProgress = 0
 let progressValue = 0
 
@@ -52,9 +64,9 @@ app.whenReady().then(() => {
             nodeIntegration: false, 
             preload: path.join(__dirname + '/preload.js'),
             contextIsolation: true,
-            
-            
+
         },
+        icon: './assets/icons.png'
     });
     win.on('close', () => { 
         app.quit()
@@ -69,17 +81,38 @@ app.whenReady().then(() => {
     
     
     win.loadURL('file://'+ __dirname + '/index.html');
-    const url = oauth2client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES
-    })
 
-    ipcMain.on('launched-game', () => { 
-        win.close()
-    })
+    // ipcMain.on('launched-game', () => { 
+    //     win.close()
+    // })
+
+    ipcMain.on('game exe not found', async (event) => { 
+        const path = await dialog.showOpenDialog(win, { 
+            properties: ['openFile'], 
+            filters: [{ name: 'Executable', extensions: ['exe'] }], 
+            title: 'Select Executeable file'})
+            if(path.canceled){ 
+                return
+            } else { 
+               event.reply('Pointed to exe file', `${path.filePaths[0]}`)
+            }
+        })
+
+        ipcMain.on('update game files directory', async () => { 
+            const path = await dialog.showOpenDialog(win, { 
+                properties: ['openDirectory'], 
+                title: 'Select Game Files Directory'})
+                if(path.canceled){ 
+                    return
+                } else { 
+                   win.webContents.send('updated game files directory',  `${path.filePaths[0]}`)
+                }
+            })
 
 
     ipcMain.on('download-file', async (event) => {
+
+        
         const result = await dialog.showOpenDialog(win, {properties: ['openDirectory']})
                 if(result.canceled) {
                     return
@@ -87,10 +120,10 @@ app.whenReady().then(() => {
                 win.webContents.send('downloading')
                 fs.readFile(TOKEN_PATH, (err, token) => {
                     if (err) {
-                        getNewToken(oauth2client, callback)
+                        getNewToken(oauth2Client, callback)
                     } else { 
-                        oauth2client.credentials = JSON.parse(token)
-                        callback(oauth2client)
+                        oauth2Client.credentials = JSON.parse(token)
+                        callback(oauth2Client)
                        
                     }
                 })
