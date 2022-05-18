@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][[contributors-url](https://github.com/travis-racisz/daggerfall-unity-launcher/graphs/contributors)]
+[![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
@@ -12,7 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/travis_racisz/daggerfall-unity0launcher">
+  <a href="https://github.com/travis-racisz/daggerfall-unity-launcher">
     <img src="https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/assets/daggerfalllauncher.png?raw=true" alt="Logo" width="120" height="240">
   </a>
 
@@ -100,7 +100,7 @@ You can download node from [here](https://nodejs.org/en/download/)
 1. Get credentials from google drive [https://developers.google.com/workspace/guides/create-credentials#oauth-client-id](https://developers.google.com/workspace/guides/create-credentials#oauth-client-id)
 2. Clone the repo
    ```sh
-   git clone https://github.com/travis_racisz/daggerfall-unity-launcher.git
+   git clone https://github.com/travis-racisz/daggerfall-unity-launcher.git
    ```
 3. Install NPM packages
    ```sh
@@ -136,7 +136,7 @@ You can download node from [here](https://nodejs.org/en/download/)
 - [ ] Add Ability to view mods from launcher
 - [ ] Add support for OSX and Linux
 
-See the [open issues](https://github.com/travis_racisz/daggerfall-unity-launcher/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/travis-racisz/daggerfall-unity-launcher/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -174,7 +174,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Travis Racisz - tracisz14@gmail.com
 
-Project Link: [https://github.com/travis_racisz/daggerfall-unity-launcher](https://github.com/travis_racisz/daggerfall-unity-launcher)
+Project Link: [https://github.com/travis-racisz/daggerfall-unity-launcher](https://github.com/travis-racisz/daggerfall-unity-launcher)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -192,16 +192,16 @@ Project Link: [https://github.com/travis_racisz/daggerfall-unity-launcher](https
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/travis_racisz/daggerfall-unity-launcher.svg?style=for-the-badge
-[contributors-url]: https://github.com/travis_racisz/daggerfall-unity-launcher/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/travis_racisz/daggerfall-unity-launcher.svg?style=for-the-badge
-[forks-url]: https://github.com/travis_racisz/daggerfall-unity-launcher/network/members
-[stars-shield]: https://img.shields.io/github/stars/travis_racisz/daggerfall-unity-launcher.svg?style=for-the-badge
-[stars-url]: https://github.com/travis_racisz/daggerfall-unity-launcher/stargazers
-[issues-shield]: https://img.shields.io/github/issues/travis_racisz/daggerfall-unity-launcher.svg?style=for-the-badge
-[issues-url]: https://github.com/travis_racisz/daggerfall-unity-launcher/issues
-[license-shield]: https://img.shields.io/github/license/travis_racisz/daggerfall-unity-launcher.svg?style=for-the-badge
-[license-url]: https://github.com/travis_racisz/daggerfall-unity-launcher/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/travis-racisz/daggerfall-unity-launcher.svg?style=for-the-badge
+[contributors-url]: https://github.com/travis-racisz/daggerfall-unity-launcher/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/travis-racisz/daggerfall-unity-launcher.svg?style=for-the-badge
+[forks-url]: https://github.com/travis-racisz/daggerfall-unity-launcher/network/members
+[stars-shield]: https://img.shields.io/github/stars/travis-racisz/daggerfall-unity-launcher.svg?style=for-the-badge
+[stars-url]: https://github.com/travis-racisz/daggerfall-unity-launcher/stargazers
+[issues-shield]: https://img.shields.io/github/issues/travis-racisz/daggerfall-unity-launcher.svg?style=for-the-badge
+[issues-url]: https://github.com/travis-racisz/daggerfall-unity-launcher/issues
+[license-shield]: https://img.shields.io/github/license/travis-racisz/daggerfall-unity-launcher.svg?style=for-the-badge
+[license-url]: https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/travis-racisz-a5780682
 [product-screenshot]: images/screenshot.png
