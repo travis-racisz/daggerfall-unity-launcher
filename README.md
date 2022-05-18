@@ -12,7 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/travis_racisz/repo_name">
+  <a href="https://github.com/travis_racisz/daggerfall-unity0launcher">
     <img src="https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/assets/daggerfalllauncher.png?raw=true" alt="Logo" width="120" height="240">
   </a>
 
@@ -64,9 +64,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
+<!-- 
+[![Daggerfall Unity Launcher][product-screenshot]](https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/assets/launcher.PNG?raw=true) -->
+<div align = "center">
+  <img src = "https://github.com/travis-racisz/daggerfall-unity-launcher/blob/master/assets/launcher.PNG?raw=true" alt="Logo" width="800" height="600">
+</div>
 Daggerfall-unity-launcher is a game launcher and updater that was created to keep daggerfall unity files up to date with the latest github release
 
 <p align="right">(<a href="#top">back to top</a>)</p>
