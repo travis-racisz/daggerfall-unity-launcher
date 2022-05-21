@@ -3,7 +3,7 @@ const body = document.querySelector('body')
 const checkForUpdate = document.getElementById("update")
 const downloadContainer = document.getElementById('download-container')
 const dfDownload = document.getElementById('df-download')
-const mods = document.getElementById('mods')
+const updateGame = document.getElementById('update-game')
 const directoryName = document.createElement("p")
 const launchGameContainer = document.getElementById('launch-game-container')
 const launchingGame = document.createElement("p")
@@ -27,7 +27,7 @@ folderIcon.addEventListener('click', () => {
     
 })
 
-mods.addEventListener('click', () => { 
+updateGame.addEventListener('click', () => { 
     const downloadPath = window.electron.getDownloadPath()
     if(!downloadPath) {
         updateText.innerHTML = 'No Download detected please download the game'
@@ -57,7 +57,7 @@ mods.addEventListener('click', () => {
 
     window.electron.getRelease()    
         .then(response => { 
-            window.electron.getRemoteFile(response.name, response.browser_download_url, downloadPath)
+            window.electron.updateRemoteFile(response.name, response.browser_download_url, downloadPath)
         })
         currentRelease.innerHTML = "Current Installed: " + downloadPath
 })
@@ -136,14 +136,14 @@ dfDownload.addEventListener('click', (e) => {
         if (event.data[0] === 'showProgress') {
             progressBar.setAttribute("value", event.data[1])
             launchGame.disabled = true
-            mods.disabled = true
+            updateGame.disabled = true
             dfDownload.disabled = true
             
         } 
         if(event.data[0] === 'doneDownloading') {
             downloadMessage.innerText = "Download complete"
             launchGame.disabled = false
-            mods.disabled = false
+            updateGame.disabled = false
             dfDownload.disabled = false
             downloadContainer.removeChild(progressBar)
         }

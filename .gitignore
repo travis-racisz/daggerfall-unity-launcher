@@ -2,6 +2,7 @@ node_modules
 *.bat
 *.env
 /token.json
+
 out/
 /credentials.json
 # Logs
@@ -93,3 +94,5 @@ typings/
 
 # Electron-Forge
 out/
+
+/package-lock.json

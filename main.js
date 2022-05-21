@@ -1,13 +1,12 @@
 
 const { app, BrowserWindow, ipcMain, dialog, ipcRenderer, } = require('electron');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path')
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2
 const drive = google.drive('v3')
 const credentials = require('./credentials.json')
 const http = require('http');
-const https = require('https');
 const URL = require('url');
 const unzipper = require('unzipper')
 const TOKEN_PATH = './token.json';
@@ -138,6 +137,7 @@ app.whenReady().then(() => {
            async function callback(auth){ 
                 
                     
+               console.log(result.filePaths[0])
                 const destination = fs.createWriteStream(`${result.filePaths[0]}/daggerfall.zip`)
                 drive.files.get({ 
                     fileId: "0B0i8ZocaUWLGWHc1WlF3dHNUNTQ",
@@ -165,6 +165,7 @@ app.whenReady().then(() => {
                      
                         win.webContents.send('download-complete')
                         const unzip = fs.createReadStream(`${result.filePaths[0]}/daggerfall.zip`)
+                       
                         unzip.pipe(unzipper.Extract({ path: `${result.filePaths[0]}` }));
                         let { size } = fs.statSync(`${result.filePaths[0]}/daggerfall.zip`);
                         unzip.on('data', (data) => { 
@@ -175,7 +176,7 @@ app.whenReady().then(() => {
                             // `written ${written} of ${size} bytes (${(written/size*100).toFixed(2)}%)`
                         })
                         unzip.on('end', () => {
-                       
+                           
                             fs.unlink(`${result.filePaths[0]}/daggerfall.zip`, (err) => {
                                 if (err) throw err;
                              

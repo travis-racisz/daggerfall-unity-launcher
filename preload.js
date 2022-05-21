@@ -2,13 +2,14 @@
 
 const pathToConfig = `${__dirname}/config.json`
 const configFile = require(`${__dirname}/config.json`)
-const { contextBridge, ipcRenderer, dialog, } = require('electron');
+const { contextBridge, ipcRenderer, } = require('electron');
 const { Octokit } = require("@octokit/core")
 const progress = require('request-progress');
 const child_process = require('child_process');
 const unzipper = require('unzipper')
 const octokit = new Octokit();
-const fs = require('fs');
+const path = require('path')
+const fs = require('fs-extra');
 const request = require('request')
 const defaultConfig = { 
     gamePath: "", 
@@ -20,6 +21,10 @@ const defaultConfig = {
 
 let progressValue = 0;
 let unzipProgress = 0
+const oldFileDirecotry =  [ 
+    "DaggerfallUnity_Data", 
+    "MonoBleedingEdge"
+]
 
 
 
@@ -28,7 +33,13 @@ let unzipProgress = 0
 
 
 
-
+function handleUnzip(unzip, isUpdate, dir, file){ 
+    if(isUpdate){
+       
+    } else { 
+        
+    }
+}
 
     
 
@@ -50,7 +61,6 @@ let unzipProgress = 0
             return
         }
         if(!configFile.defaultConfig.gamePath) {
-            console.log('fired')
             ipcRenderer.send('game exe not found')
             ipcRenderer.on('Pointed to exe file', (event, path) => { 
                 console.log('path', path)
@@ -117,7 +127,7 @@ let unzipProgress = 0
             return false
         }
     },
-    getRemoteFile: (file, url, path) =>{  
+    getRemoteFile: (file, url, dir) =>{  
         // gets the file from the url
         progress(request.get(url))
             .on('progress', (state) => {
@@ -125,35 +135,121 @@ let unzipProgress = 0
                 progressValue = (state.percent * 100).toFixed(2)
                 window.postMessage(['showProgress', progressValue])
             })
-            .pipe(fs.createWriteStream(`${path}/${file}`))
+            .pipe(fs.createWriteStream(`${dir}/${file}`))
             .on('finish', () => { 
                 window.postMessage('download-complete')
+
+                    const unzip = fs.createReadStream(`${dir}/${file}`)
+                    unzip.pipe(unzipper.Extract({ path: `${dir}` }));
+                    let { size } = fs.statSync(`${dir}/${file}`);
+                    unzip.on('data', (data) => { 
+                        unzipProgress += data.length
+                        
+                        window.postMessage(['showProgress', (unzipProgress/size*100).toFixed(2)])
+                        
+                        
+
+                      
+                    })
+                    unzip.on('end', () => {
+                        fs.unlink(`${dir}/${file}`)
+                        defaultConfig.gamePath = dir
+                        fs.writeFile(pathToConfig, JSON.stringify({defaultConfig}, null, 2), (err) => {
+                            if(err) throw err;
+                    
+                        })  
+                        window.postMessage(['doneDownloading'])
+                    })
+                })
                 
-                const unzip = fs.createReadStream(`${path}/${file}`)
-                unzip.pipe(unzipper.Extract({ path: `${path}` }));
-                let { size } = fs.statSync(`${path}/${file}`);
+    },
+    updateRemoteFile: (file, url, dir) =>{  
+        if(!fs.existsSync(`${dir}/daggerfall-update`)){ 
+            fs.mkdirSync(`${dir}/daggerfall-update`)
+        }
+        // gets the file from the url
+        progress(request.get(url))
+            .on('progress', (state) => {
+               
+                progressValue = (state.percent * 100).toFixed(2)
+                window.postMessage(['showProgress', progressValue])
+            })
+            .pipe(fs.createWriteStream(`${dir}/daggerfall-update/${file}`))
+            .on('finish', () => { 
+                window.postMessage('download-complete')
+
+                const unzip = fs.createReadStream(`${dir}/daggerfall-update/${file}`)
+                unzip.pipe(unzipper.Extract({ path: `${dir}/daggerfall-update` }));
+                let { size } = fs.statSync(`${dir}/daggerfall-update/${file}`);
                 unzip.on('data', (data) => { 
                     unzipProgress += data.length
                     
                     window.postMessage(['showProgress', (unzipProgress/size*100).toFixed(2)])
-
                 })
                 unzip.on('end', () => {
-
-                    fs.unlink(`${path}/${file}`, (err) => {
-                        if (err) throw err;
-
-                    })
-                    window.postMessage(['doneDownloading'])
-                })
-                defaultConfig.gamePath = path
-                fs.writeFile(pathToConfig, JSON.stringify({defaultConfig}, null, 2), (err) => {
-                    if(err) throw err;
-
-                })
-                        
                     
+                    const files = fs.readdirSync(`${dir}/DaggerfallUnity_Data/StreamingAssets/Mods`, {encoding: 'utf8', withFileTypes: true})
+                    console.log(files)
+                    // moves all the mods from old dir to new one
+                    if(files){ 
+                        for (const file of files){ 
+                            fs.renameSync(`${dir}/DaggerfallUnity_Data/StreamingAssets/Mods/${file.name}`, `${dir}/daggerfall-update/DaggerfallUnity_Data/StreamingAssets/Mods/${file.name}`, (err) => { 
+                                if(err) console.log(err)
+                            })
+                        }
+                    }
+                 
+                    // oldFileDirecotry.forEach(directory => { 
+                    //     fs.rmSync(`${dir}/${directory}`, { recursive: true })
+                    // })
+                    
+                    // const files = fs.readdirSync(dir, {encoding: 'utf8', withFileTypes: true})
+                    //     console.log(files)    
+                    const baseFiles = fs.readdirSync(dir, {encoding: 'utf8', withFileTypes: true})
+                    if(baseFiles){ 
+                            for (const file of baseFiles) {
+                                console.log(file)
+                                if(file.name === 'arena2'){ 
+                                    continue
+                                }
+                                if(file.name === 'daggerfall-update'){ 
+                                    continue
+                                }
+                                const isDirectory = fs.lstatSync(`${dir}/${file.name}`).isDirectory() 
+                                if(isDirectory){
+                                    fs.rmdirSync(`${dir}/${file.name}`, { recursive: true })
+                                } else {
+                                    fs.rmSync(path.join(dir, file.name))
+                                }
+                            }
+                        }
+            
+                        // moves all of the update files to the parent folder
+                       const moveFilesToParentDir = fs.readdirSync(`${dir}/daggerfall-update`, {encoding: 'utf8', withFileTypes: true})
+                       if(moveFilesToParentDir){
+                            for (const file of moveFilesToParentDir) {
+                                fs.moveSync(`${dir}/daggerfall-update/${file.name}`, `${dir}/${file.name}`, { overwrite: true })
+                            }
+                        }
+                      
+                      // remove the update folder
+                    fs.rmdirSync(`${dir}/daggerfall-update`)
+            
+                    // remove the zip folder
+                    fs.unlinkSync(`${dir}/${file}`)
+            
+                window.postMessage(['doneDownloading'])
             })
+            defaultConfig.gamePath = dir
+            fs.writeFile(pathToConfig, JSON.stringify({defaultConfig}, null, 2), (err) => {
+                if(err) throw err;
+            
+            })  
+                
+                })
+               
+                        
+                
             
             
     },
