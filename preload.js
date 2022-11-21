@@ -8,6 +8,7 @@ const progress = require('request-progress');
 const child_process = require('child_process');
 const unzipper = require('unzipper')
 const octokit = new Octokit();
+const os = require('node:os')
 const path = require('path')
 const fs = require('fs-extra');
 const request = require('request')
@@ -31,16 +32,6 @@ const oldFileDirecotry =  [
 
 
 
-
-
-function handleUnzip(unzip, isUpdate, dir, file){ 
-    if(isUpdate){
-       
-    } else { 
-        
-    }
-}
-
     
 
 
@@ -50,15 +41,7 @@ function handleUnzip(unzip, isUpdate, dir, file){
   contextBridge.exposeInMainWorld('electron', {
     launchGame: () => { 
         if(configFile.defaultConfig.executeable){ 
-            child_process.exec(`START ${configFile.defaultConfig.executeable}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
-                if (!err) {
-                    console.log(err)
-                }
-                ipcRenderer.send('launched-game')
-                window.postMessage('launched-game')
-                
-            })
-            return
+            
         }
         if(!configFile.defaultConfig.gamePath) {
             ipcRenderer.send('game exe not found')
@@ -66,14 +49,29 @@ function handleUnzip(unzip, isUpdate, dir, file){
                 console.log('path', path)
                 configFile.defaultConfig.executeable = path
                 fs.writeFileSync(pathToConfig, JSON.stringify(configFile))
-                child_process.exec(`START ${path}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
-                    if (!err) {
-                        console.log(err)
-                    }
-                    ipcRenderer.send('launched-game')
-                    window.postMessage('launched-game')
+                const platform = process.platform
+            switch(platform){ 
+                case("win32"):
+                    child_process.exec(`START ${path}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
+                        if (!err) {
+                            console.log(err)
+                        }
+                        ipcRenderer.send('launched-game')
+                        window.postMessage('launched-game')
+                        
+                    })
+                    break 
+                case("darwin"): 
+                    child_process.exec(`open -a ${path}/DaggerFallUnity.app/Contents/MacOS/'Daggerfall Unity'`, ((err) => { 
+                        if(err){ 
+                            console.error(err)
+                        }
+                    }))
+                    break
                     
-                })
+                    
+
+            }
             })
             return
         } 
@@ -81,15 +79,30 @@ function handleUnzip(unzip, isUpdate, dir, file){
             window.postMessage('launching-game')
                 const rawData = fs.readFileSync(pathToConfig, 'utf8') 
                 const data = JSON.parse(rawData)
-                        child_process.exec(`START ${data?.defaultConfig.gamePath}\\DaggerfallUnity.exe`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
-                            if (!err) {
-                                console.log(err)
-                            }
-                            ipcRenderer.send('launched-game')
-                            window.postMessage('launched-game')
-                            
-                        })
-                    return
+                const platform = process.platform
+            switch(platform){ 
+                case("win32"):
+                    child_process.exec(`START ${configFile.defaultConfig.executeable}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
+                        if (!err) {
+                            console.log(err)
+                        }
+                        ipcRenderer.send('launched-game')
+                        window.postMessage('launched-game')
+                        
+                    })
+                    break 
+                case("darwin"): 
+                    child_process.exec(`open -a ${configFile.defaultConfig.gamePath}/DaggerFallUnity.app/Contents/MacOS/'Daggerfall Unity'`, ((err) => { 
+                        if(err){ 
+                            console.error(err)
+                        }
+                    }))
+                    
+                    
+
+            }
+            
+            return
             }   
     },
 
@@ -160,8 +173,22 @@ function handleUnzip(unzip, isUpdate, dir, file){
                         })  
                         window.postMessage(['doneDownloading'])
                     })
+                    
                 })
                 
+    },
+    changePermissions: () => { 
+        const platform = os.platform()
+        console.log(platform)
+            if(platform === 'darwin'){ 
+                const path = `${defaultConfig.gamePath}/DaggerfallUnity.app/Contents/MacOS/'Daggerfall Unity'`
+                    child_process.exec(`chmod u+x ${path}`, ((err) => { 
+                        if(err){ 
+                            console.log(err)
+                        }
+                    }))
+            }
+                        
     },
     updateRemoteFile: (file, url, dir) =>{  
         if(!fs.existsSync(`${dir}/daggerfall-update`)){ 

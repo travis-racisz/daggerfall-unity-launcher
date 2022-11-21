@@ -1,1 +1,8 @@
-{"defaultConfig":{"gamePath":"","modsPath":"","executeable":""}}
+{
+  "defaultConfig": {
+    "gamePath": "",
+    "modsPath": "",
+    "executeable": "",
+    "release": ""
+  }
+}

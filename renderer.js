@@ -146,6 +146,7 @@ dfDownload.addEventListener('click', (e) => {
             updateGame.disabled = false
             dfDownload.disabled = false
             downloadContainer.removeChild(progressBar)
+            window.electron.changePermissions()
         }
 
     })

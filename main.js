@@ -145,12 +145,13 @@ app.whenReady().then(() => {
                     auth: auth,
                 },
                 {responseType: 'stream'}, (err, response ) => { 
-                    let downloadSize = response.headers['content-length']
-                  
+                    
                     
                     if(err){
                         console.log(err)
+                        return
                     }
+                    let downloadSize = response.headers['content-length']
                     response.data
                     .on('data', (chunk) => {
                        
@@ -181,6 +182,7 @@ app.whenReady().then(() => {
                                 if (err) throw err;
                              
                             })
+                            
                             win.webContents.send('unzip-complete', result.filePaths[0])
                         })
                     })
