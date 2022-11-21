@@ -1,1 +1,8 @@
-{"defaultConfig":{"gamePath":"","modsPath":"","executeable":""}}
+{
+  "defaultConfig": {
+    "gamePath": "/Users/travisracisz/Desktop/daggerfall",
+    "modsPath": "",
+    "executeable": "",
+    "release": "Daggerfall Unity 0.14.5 Beta"
+  }
+}
