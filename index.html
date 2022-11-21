@@ -19,12 +19,13 @@
   <script src="https://kit.fontawesome.com/34ac490c52.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
 <body>
   <div class="title-flex">
     <h1 class="title-text">Daggerfall Unity Installer and Updater</h1>
-    <div id="react_app_entry"></div>
+    <div id='root'></div>
   </div>
   <div class="desc-flex">
     <div class="small-col-flex">
@@ -57,6 +58,6 @@
   <!-- <img class="art" src="assets/art.gif"></img> -->
   </div>
 </body>
-<script src="./renderer.js"></script>
+<script type="text/babel" src="./renderer.js"></script>
 
 </html>

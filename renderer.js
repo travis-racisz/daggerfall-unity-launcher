@@ -177,23 +177,10 @@ body.appendChild(directoryName)
 currentRelease.classList.add("text");
     
 
-const e = React.createElement;
-
-class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { liked: false };
-  }
-
-  render() {
-    return e(
-      'button',
-      {},
-      'A React Button'
-    );
-  }
-}
-
-const domContainer = document.querySelector('#react_app_entry');
+const domContainer = document.querySelector('#root');
 const root = ReactDOM.createRoot(domContainer);
-root.render(e(LikeButton));
+root.render(
+    <button onClick={() => console.log("Click")}>
+      Hello
+    </button>
+)
