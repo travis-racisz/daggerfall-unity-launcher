@@ -47,6 +47,8 @@
     "node-fetch": "^3.2.4",
     "node-google-drive": "^1.1.2",
     "octonode": "^0.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "request-progress": "^3.0.0",
     "unzipper": "^0.10.11"
   },

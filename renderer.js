@@ -1,4 +1,3 @@
-
 const body = document.querySelector('body')
 const checkForUpdate = document.getElementById("update")
 const downloadContainer = document.getElementById('download-container')
@@ -171,9 +170,30 @@ dfDownload.addEventListener('click', (e) => {
 
     })
 
-    downloadContainer.appendChild(announcmentElement)
-    currentRelease.innerHTML = "Current Installed: " + window.electron.getCurrentRelease()
-    folderToolTip.appendChild(folderIcon)
-    body.appendChild(directoryName)
-    currentRelease.classList.add("text");
+downloadContainer.appendChild(announcmentElement)
+currentRelease.innerHTML = "Current Installed: " + window.electron.getCurrentRelease()
+folderToolTip.appendChild(folderIcon)
+body.appendChild(directoryName)
+currentRelease.classList.add("text");
     
+
+const e = React.createElement;
+
+class LikeButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: false };
+  }
+
+  render() {
+    return e(
+      'button',
+      {},
+      'A React Button'
+    );
+  }
+}
+
+const domContainer = document.querySelector('#react_app_entry');
+const root = ReactDOM.createRoot(domContainer);
+root.render(e(LikeButton));
