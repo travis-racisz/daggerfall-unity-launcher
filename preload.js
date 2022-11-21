@@ -32,16 +32,6 @@ const oldFileDirecotry =  [
 
 
 
-
-
-function handleUnzip(unzip, isUpdate, dir, file){ 
-    if(isUpdate){
-       
-    } else { 
-        
-    }
-}
-
     
 
 
@@ -59,14 +49,29 @@ function handleUnzip(unzip, isUpdate, dir, file){
                 console.log('path', path)
                 configFile.defaultConfig.executeable = path
                 fs.writeFileSync(pathToConfig, JSON.stringify(configFile))
-                child_process.exec(`START ${path}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
-                    if (!err) {
-                        console.log(err)
-                    }
-                    ipcRenderer.send('launched-game')
-                    window.postMessage('launched-game')
+                const platform = process.platform
+            switch(platform){ 
+                case("win32"):
+                    child_process.exec(`START ${path}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
+                        if (!err) {
+                            console.log(err)
+                        }
+                        ipcRenderer.send('launched-game')
+                        window.postMessage('launched-game')
+                        
+                    })
+                    break 
+                case("darwin"): 
+                    child_process.exec(`open -a ${path}/DaggerFallUnity.app/Contents/MacOS/'Daggerfall Unity'`, ((err) => { 
+                        if(err){ 
+                            console.error(err)
+                        }
+                    }))
+                    break
                     
-                })
+                    
+
+            }
             })
             return
         } 
@@ -92,7 +97,6 @@ function handleUnzip(unzip, isUpdate, dir, file){
                             console.error(err)
                         }
                     }))
-                    break
                     
                     
 

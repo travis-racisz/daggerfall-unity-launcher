@@ -8,10 +8,8 @@ const drive = google.drive('v3')
 const credentials = require('./credentials.json')
 const http = require('http');
 const URL = require('url');
-const child_process = require('child_process');
 const unzipper = require('unzipper')
 const TOKEN_PATH = './token.json';
-const os = require('node:os')
 require('dotenv').config()
 if(require('electron-squirrel-startup')) app.quit();
 
