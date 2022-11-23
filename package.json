@@ -1,40 +1,34 @@
 {
   "name": "daggerfall-unity-launcher",
+  "productName": "daggerfall-unity-launcher",
   "version": "1.0.0",
-  "description": "A Daggerfall launcher",
-  "main": "./main.js",
+  "description": "My Electron application description",
+  "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
-    "test": "npm run test",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
   },
-  "build": {
-    "productName": "Daggerfall-unity-launcher",
-    "directories": {
-      "output": "build"
-    },
-    "mac": {
-      "icon": "./assets/icon.png"
-    },
-    "win": {
-      "icon": "./assets/icon"
-    },
-    "linux": {
-      "icon": "./assets/icon.png"
-    }
-  },
-  "afterSign": "scripts/notarize.js",
-  "author": "Traces",
-  "license": "ISC",
+  "keywords": [],
+  "author": "reynoldurena",
+  "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.63",
-    "@electron-forge/maker-deb": "^6.0.0-beta.63",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
-    "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "css-loader": "^6.7.1",
-    "electron": "^18.2.2"
+    "@babel/core": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@electron-forge/cli": "^6.0.3",
+    "@electron-forge/maker-deb": "^6.0.3",
+    "@electron-forge/maker-rpm": "^6.0.3",
+    "@electron-forge/maker-squirrel": "^6.0.3",
+    "@electron-forge/maker-zip": "^6.0.3",
+    "@electron-forge/plugin-webpack": "^6.0.3",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.0.0",
+    "electron": "21.3.0",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.0.0"
   },
   "dependencies": {
     "@octokit/core": "^3.6.0",
@@ -47,38 +41,9 @@
     "node-fetch": "^3.2.4",
     "node-google-drive": "^1.1.2",
     "octonode": "^0.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "request-progress": "^3.0.0",
     "unzipper": "^0.10.11"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "C:/Users/traci/Dev/daggerfall-electron/assets/logo.ico"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "setupIcon": "C:/Users/traci/Dev/daggerfall-electron/assets/logo.ico",
-            "name": "daggerfall-unity-launcher"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "hooks": "require:./scripts/generateAssets.js"
-    }
   }
 }
