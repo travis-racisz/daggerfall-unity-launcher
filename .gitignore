@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules
 *.bat
 *.env
@@ -15,11 +16,17 @@ lerna-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+=======
+# Logs
+logs
+*.log
+>>>>>>> 13e93e2 (added types)
 
 # Runtime data
 pids
 *.pid
 *.seed
+<<<<<<< HEAD
 *.pid.lock
 .DS_Store
 
@@ -96,3 +103,26 @@ typings/
 out/
 
 /package-lock.json
+=======
+
+# Coverage directory used by tools like istanbul
+coverage
+.eslintcache
+
+# Dependency directory
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+node_modules
+
+# OSX
+.DS_Store
+
+release/app/dist
+release/build
+.erb/dll
+
+.idea
+npm-debug.log.*
+*.css.d.ts
+*.sass.d.ts
+*.scss.d.ts
+>>>>>>> 13e93e2 (added types)
