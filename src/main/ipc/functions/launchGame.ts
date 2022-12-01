@@ -1,14 +1,14 @@
 import { ipcRenderer } from 'electron';
 import fs from 'fs';
 import child_process from 'child_process';
-import configFile from '../config.json';
+import configFile from '../../config.json';
+import { pathToConfig } from '../utils';
 
-const pathToConfig = `${__dirname}/config.json`;
 export default function launchGame() {
   if (!configFile.defaultConfig.gamePath) {
     ipcRenderer.send('game exe not found');
     ipcRenderer.on('Pointed to exe file', (event, path) => {
-      configFile.defaultConfig.executeable = path;
+      configFile.defaultConfig.executable = path;
       fs.writeFileSync(pathToConfig, JSON.stringify(configFile));
       const { platform } = process;
       switch (platform) {

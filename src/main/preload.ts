@@ -14,7 +14,7 @@ const api: PreloadExposed = {
     ipcRenderer.send(event.name);
   },
   getRelease(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   getCurrentRelease(event: IPCEvents): void {
     throw new Error('Function not implemented.');

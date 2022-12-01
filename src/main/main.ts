@@ -9,11 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import getRelease from './ipc/functions/getRelease';
+import { platform } from './ipc/utils';
 
 class AppUpdater {
   constructor() {
@@ -35,6 +37,21 @@ ipcMain.on('sendEvent', async (event, arg) => {
 ipcMain.on('launchGame', async (event, arg) => {
   console.log('launching game');
   event.reply('ipc-example', 'launching game');
+});
+
+ipcMain.on('getRelease', async (event) => {
+  const buttons = ['32bit', '64bit'];
+  if (platform === 'win32') {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const bitSize = await dialog.showMessageBox({
+      message: 'Please pick a bit size to download',
+      buttons,
+    });
+    getRelease(buttons[bitSize.response]);
+  } else {
+    getRelease();
+  }
+  event.reply('getting release');
 });
 
 if (process.env.NODE_ENV === 'production') {

@@ -3,6 +3,7 @@ import { IPCEvents } from 'main/ipc/types';
 declare global {
   interface Window {
     electron: {
+      getRelease(arg0: { name: string; payload: undefined; }): void;
       sendEvent(event: IPCEvents): void;
       on(
         channel: string,

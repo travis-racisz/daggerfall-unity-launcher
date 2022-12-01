@@ -14,7 +14,7 @@ export type IPCEvents =
 export type Channels = 'ipc-example';
 export type SendEvent = Event<'sendEvent', { message: string }>;
 export type LaunchGame = Event<'launchGame'>;
-export type GetRelease = Event<'getRelease'>;
+export type GetRelease = Event<'getRelease', { bitSize: string }>;
 export type GetCurrentRelease = Event<'getCurrentRelease'>;
 export type CheckForNewRelease = Event<'checkForNewRelease'>;
 export type GetRemoteFile = Event<'getRemoteFile'>;
@@ -24,6 +24,9 @@ export type UpdateGameFilesDirectory = Event<'updateGameFilesDirectory'>;
 export type GetDownloadPath = Event<'getDownloadPath'>;
 export type DownloadFile = Event<'downloadFile'>;
 export type Once = Event<'once'>;
+export type Asset = {
+  name: string;
+};
 
 export interface PreloadExposed {
   sendEvent: (event: IPCEvents) => void;
