@@ -160,6 +160,7 @@ MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplat
 [stackoverflow-url]: https://stackoverflow.com/questions/tagged/electron-react-boilerplate
 =======
 <div id="top"></div>
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
