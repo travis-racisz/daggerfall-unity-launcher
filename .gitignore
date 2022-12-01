@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 node_modules
 *.bat
 *.env
@@ -21,11 +22,17 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 logs
 *.log
 >>>>>>> 13e93e2 (added types)
+=======
+# Logs
+logs
+*.log
+>>>>>>> react_electron
 
 # Runtime data
 pids
 *.pid
 *.seed
+<<<<<<< HEAD
 <<<<<<< HEAD
 *.pid.lock
 .DS_Store
@@ -104,6 +111,8 @@ out/
 
 /package-lock.json
 =======
+=======
+>>>>>>> react_electron
 
 # Coverage directory used by tools like istanbul
 coverage
@@ -125,4 +134,7 @@ npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+<<<<<<< HEAD
 >>>>>>> 13e93e2 (added types)
+=======
+>>>>>>> react_electron
