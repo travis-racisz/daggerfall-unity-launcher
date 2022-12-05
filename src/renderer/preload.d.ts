@@ -3,6 +3,9 @@ import { IPCEvents } from 'main/ipc/types';
 declare global {
   interface Window {
     electron: {
+      checkForNewRelease(event: IPCEvents): void;
+      updateRemoteFile(event: IPCEvents): void;
+      downloadFile(event: IPCEvents): void;
       sendEvent(event: IPCEvents): void;
       on(
         channel: string,
