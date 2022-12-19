@@ -15,7 +15,10 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import getRelease from './ipc/functions/getRelease';
+import checkReleaseFromConfigFile from './ipc/functions/checkReleaseFromConfigFile';
 import { platform } from './ipc/utils';
+import checkForNewRelease from './ipc/functions/checkForNewRelease';
+import downloadDaggerfallUnity from './ipc/functions/downloadDaggerfallUnity';
 
 class AppUpdater {
   constructor() {
@@ -24,6 +27,8 @@ class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
+
+downloadDaggerfallUnity();
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -52,6 +57,14 @@ ipcMain.on('getRelease', async (event) => {
     getRelease();
   }
   event.reply('getting release');
+});
+
+ipcMain.on('checkReleaseFromConfigFile', async (event) => {
+  event.reply('ipc-example', `${await checkReleaseFromConfigFile()}`);
+});
+
+ipcMain.on('checkForNewRelease', async (event) => {
+  event.reply('ipc-example', await checkForNewRelease());
 });
 
 if (process.env.NODE_ENV === 'production') {

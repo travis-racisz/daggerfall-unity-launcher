@@ -3,10 +3,11 @@ import { IPCEvents } from 'main/ipc/types';
 declare global {
   interface Window {
     electron: {
-      checkForNewRelease(event: IPCEvents): void;
+      checkForNewRelease(event: IPCEvents): boolean | Error;
       updateRemoteFile(event: IPCEvents): void;
       downloadFile(event: IPCEvents): void;
       sendEvent(event: IPCEvents): void;
+      checkReleaseFromConfigFile(event: IPCEvents): string | Error;
       on(
         channel: string,
         func: (...args: unknown[]) => void

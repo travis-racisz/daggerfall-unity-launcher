@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import { parseArgs } from 'util';
 import { IPCEvents, PreloadExposed, Channels } from './ipc/types';
 
 // this is the bridge to the main to execute the functions.
@@ -16,29 +15,29 @@ const api: PreloadExposed = {
   getRelease(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
-  getCurrentRelease(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+  checkReleaseFromConfigFile(event: IPCEvents): void {
+    ipcRenderer.send(event.name);
   },
   checkForNewRelease(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
-  getRemoteFile(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+  downloadDaggerfallUnity(event: IPCEvents): void {
+    ipcRenderer.send(event.name);
   },
   changePermissions(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   updateRemoteFile(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   updateGameFilesDirectory(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   getDownloadPath(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   downloadFile(event: IPCEvents): void {
-    throw new Error('Function not implemented.');
+    ipcRenderer.send(event.name);
   },
   once(channel: Channels, func: (...args: unknown[]) => void) {
     ipcRenderer.once(channel, (_event, ...args) => func(...args));

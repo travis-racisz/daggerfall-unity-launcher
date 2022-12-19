@@ -22,7 +22,15 @@ const handleUpdateGameClicked = (e: any) => {
   });
 };
 
-const handleCheckForNewRelease = (e: any) => {
+const handleCheckReleaseFromConfigFile = (e: any) => {
+  e.preventDefault();
+  window.electron.checkReleaseFromConfigFile({
+    name: 'checkReleaseFromConfigFile',
+    payload: undefined,
+  });
+};
+
+const handleCheckForNewRelease = async (e: any) => {
   e.preventDefault();
   window.electron.checkForNewRelease({
     name: 'checkForNewRelease',
@@ -56,6 +64,9 @@ const DaggerFall = () => (
     </div>
     <button onClick={handleCheckForNewRelease} id="update">
       Check For New Release
+    </button>
+    <button onClick={handleCheckReleaseFromConfigFile} id="update">
+      Check current version
     </button>
   </>
 );
