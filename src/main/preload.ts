@@ -9,6 +9,9 @@ const api: PreloadExposed = {
   sendEvent(event) {
     ipcRenderer.send(event.name, event.payload);
   },
+  openDialogBox(event): void {
+    ipcRenderer.send(event.name);
+  },
   launchGame(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
@@ -22,7 +25,7 @@ const api: PreloadExposed = {
     ipcRenderer.send(event.name);
   },
   downloadDaggerfallUnity(event: IPCEvents): void {
-    ipcRenderer.send(event.name);
+    ipcRenderer.send(event.name, event.payload);
   },
   sendPath(event: IPCEvents): void {
     ipcRenderer.send(event.name);

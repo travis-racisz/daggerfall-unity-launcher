@@ -20,17 +20,17 @@ const handleOnLaunchClicked = (e: any) => {
   window.electron.launchGame({ name: 'launchGame', payload: undefined });
 };
 
-const handleDownloadDaggerfallUnityDownload = (e: any) => {
-  e.preventDefault();
-  window.addEventListener('message', (event) => {
-    console.log('eventReceived');
-    console.log(event);
-  });
-  window.electron.downloadDaggerfallUnity({
-    name: 'downloadDaggerfallUnity',
-    payload: undefined,
-  });
-};
+// const handleDownloadDaggerfallUnityDownload = (e: any) => {
+//   e.preventDefault();
+//   window.addEventListener('message', (event) => {
+//     console.log('eventReceived');
+//     console.log(event);
+//   });
+//   window.electron.downloadDaggerfallUnity({
+//     name: 'downloadDaggerfallUnity',
+//     payload: { path: '' },
+//   });
+// };
 
 const handleUpdateGameClicked = (e: any) => {
   e.preventDefault();

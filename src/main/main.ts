@@ -19,6 +19,7 @@ import checkReleaseFromConfigFile from './ipc/functions/checkReleaseFromConfigFi
 import { platform } from './ipc/utils';
 import checkForNewRelease from './ipc/functions/checkForNewRelease';
 import downloadDaggerfallUnity from './ipc/functions/downloadDaggerfallUnity';
+import openDialogBoxAction from './ipc/functions/openDialogBox';
 
 class AppUpdater {
   constructor() {
@@ -61,12 +62,23 @@ ipcMain.on('checkReleaseFromConfigFile', async (event) => {
   event.reply('ipc-example', `${await checkReleaseFromConfigFile()}`);
 });
 
+ipcMain.on('openDialogBox', async (event) => {
+  event.reply('path-selected', await openDialogBoxAction());
+});
+
 ipcMain.on('checkForNewRelease', async (event) => {
   event.reply('ipc-example', await checkForNewRelease());
 });
 
-ipcMain.on('downloadDaggerfallUnity', async (event) => {
-  event.reply('ipc-example', await downloadDaggerfallUnity(mainWindow));
+ipcMain.on('downloadDaggerfallUnity', async (event, arg) => {
+  event.reply(
+    'ipc-example',
+    await downloadDaggerfallUnity(mainWindow, arg.path)
+  );
+});
+
+ipcMain.on('sendPath', (event) => {
+  event.reply('ipc-example', 'Got path');
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -147,8 +159,7 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-   new AppUpdater();
-
+  new AppUpdater();
 };
 
 /**
