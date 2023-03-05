@@ -23,7 +23,7 @@
 .button-panel-container .toggle-button {
   position: relative;
   top: 0;
-  left:-40px;
+  left: -40px;
   display: block;
   background-color: #444444;
   border: none;
@@ -34,6 +34,16 @@
   border-radius: 4px;
   transition: background-color 0.2s;
   z-index: 1;
+}
+
+.nav-menu {
+  display: flex;
+  width: 100vw;
+  background-color: #0e0e0e;
+  margin-bottom: 5px;
+  margin-top: 0px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* .toggle-button{
@@ -95,4 +105,3 @@
 .button-panel .action-button:active {
   background-color: #666666;
 }
-

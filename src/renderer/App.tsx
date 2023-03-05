@@ -58,35 +58,46 @@ const handleCheckForNewRelease = async (e: any) => {
 
 const DaggerFall = () => (
   <>
-    <title>Daggerfall Launcher</title>
-    <h1>Daggerfall Unity Installer and Updater</h1>
+    <div className="big-box">
+      <title>Daggerfall Launcher</title>
+      <h1>Daggerfall Unity Installer and Updater</h1>
 
-    <div id="download-container" className="download-container">
-      <div id="currently-installed" className="currently-installed">
-        <p id="current-release" />
-        <span className="tooltiptext">Update game files directory</span>
+      <div id="download-container" className="download-container">
+        <div id="currently-installed" className="currently-installed">
+          <p id="current-release" />
+          <span className="tooltiptext">Update game files directory</span>
+        </div>
+        {/* <button onClick={handleDownloadDaggerfallUnityDownload}>Download Daggerfall</button> */}
+        {/* <progress id="progress" className="hidden" /> */}
+        <p id="download-message" className="hidden" />
       </div>
-      <Link to="/download">download</Link>
-      {/* <button onClick={handleDownloadDaggerfallUnityDownload}>Download Daggerfall</button> */}
-      {/* <progress id="progress" className="hidden" /> */}
-      <p id="download-message" className="hidden" />
+      <div id="buttons-box">
+        <div id="launch-game-container" className="download-container">
+          <button
+            onClick={handleOnLaunchClicked}
+            type="button"
+            id="launch-game"
+          >
+            Launch Game
+          </button>
+        </div>
+        <div id="update-container" className="update-container">
+          <button
+            onClick={handleUpdateGameClicked}
+            type="button"
+            id="update-game"
+          >
+            Update Game
+          </button>
+        </div>
+        <button onClick={handleCheckForNewRelease} id="update">
+          Check For New Release
+        </button>
+        <button onClick={handleCheckReleaseFromConfigFile} id="update">
+          Check Current Version
+        </button>
+      </div>
     </div>
-    <div id="launch-game-container" className="download-container">
-      <button onClick={handleOnLaunchClicked} type="button" id="launch-game">
-        Launch Game
-      </button>
-    </div>
-    <div id="update-container" className="update-container">
-      <button onClick={handleUpdateGameClicked} type="button" id="update-game">
-        Update Game
-      </button>
-    </div>
-    <button onClick={handleCheckForNewRelease} id="update">
-      Check For New Release
-    </button>
-    <button onClick={handleCheckReleaseFromConfigFile} id="update">
-      Check current version
-    </button>
     {/* <Home /> */}
   </>
 );

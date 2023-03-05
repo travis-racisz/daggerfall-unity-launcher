@@ -3,27 +3,82 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 
- body {
+body {
   background-color: #222222;
+  display: flex;
+  margin: 0px;
+  justify-content: center;
+  align-items: center;
   color: #dddddd;
 }
 
-button, input[type="button"], input[type="submit"] {
+h1 {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-align: center;
   background-color: #444444;
   border: none;
   color: #cccccc;
   font-size: 1em;
+  margin: 10px;
   padding: 0.5em 1em;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.2s;
 }
 
-button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+span {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.big-box {
+  padding: 25px;
+  border-radius: 15px;
+  margin-left: 25%;
+  width: 50%;
+  background-color: #6b6b6b;
+}
+
+.download-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+#buttons-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+  background-color: #444444;
+  border: none;
+  color: #cccccc;
+  font-size: 1em;
+  margin: 10px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
   background-color: #555555;
 }
 
-button:active, input[type="button"]:active, input[type="submit"]:active {
+button:active,
+input[type="button"]:active,
+input[type="submit"]:active {
   background-color: #666666;
 }
 
