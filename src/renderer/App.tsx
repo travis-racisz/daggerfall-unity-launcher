@@ -1,17 +1,35 @@
 /* eslint-disable react/button-has-type */
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
+import DownloadPathSelector from './Components/DownloadLocation';
+import BackButton from './Components/HomeButton';
+import Home from './Components/Home';
 
 const handleOnDownloadClicked = (e: any) => {
   e.preventDefault();
   // 1. OG Dagger file via Google
-  window.electron.downloadFile({ name: 'downloadFile', payload: undefined });
+  window.electron.downloadOriginalDaggerfall({
+    name: 'downloadOriginalDaggerfall',
+    payload: undefined,
+  });
 };
 
 const handleOnLaunchClicked = (e: any) => {
   e.preventDefault();
   window.electron.launchGame({ name: 'launchGame', payload: undefined });
+};
+
+const handleDownloadDaggerfallUnityDownload = (e: any) => {
+  e.preventDefault();
+  window.addEventListener('message', (event) => {
+    console.log('eventReceived');
+    console.log(event);
+  });
+  window.electron.downloadDaggerfallUnity({
+    name: 'downloadDaggerfallUnity',
+    payload: undefined,
+  });
 };
 
 const handleUpdateGameClicked = (e: any) => {
@@ -48,7 +66,8 @@ const DaggerFall = () => (
         <p id="current-release" />
         <span className="tooltiptext">Update game files directory</span>
       </div>
-      <button onClick={handleOnDownloadClicked}>Download Daggerfall</button>
+      <Link to="/download">download</Link>
+      {/* <button onClick={handleDownloadDaggerfallUnityDownload}>Download Daggerfall</button> */}
       {/* <progress id="progress" className="hidden" /> */}
       <p id="download-message" className="hidden" />
     </div>
@@ -68,15 +87,44 @@ const DaggerFall = () => (
     <button onClick={handleCheckReleaseFromConfigFile} id="update">
       Check current version
     </button>
+    {/* <Home /> */}
   </>
 );
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<DaggerFall />} />
-      </Routes>
+      <div>
+        <BackButton />
+        <Routes>
+          <Route path="/" element={<DaggerFall />} />
+          <Route path="/download" element={<DownloadPathSelector />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
+
+// import { Transition, TransitionGroup } from 'react-transition-group';
+// import './App.css';
+// import DownloadLocation from './Components/DownloadLocation';
+
+// export default function App(){
+//   return(
+//   <Router>
+//     <Routes
+//       render={({ location }) => (
+//         <TransitionGroup>
+//           <Transition
+//             key={location.key}
+//             timeout={{ enter: 300, exit: 300 }}
+//           >
+//               <Route exact path="/" element={<Home />} />
+//               <Route path="/download" element={<DownloadLocation />} />
+//               {/* Other routes */}
+//           </Transition>
+//         </TransitionGroup>
+//       )}
+//     />
+//   </Router>
+//   )};

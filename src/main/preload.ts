@@ -24,6 +24,9 @@ const api: PreloadExposed = {
   downloadDaggerfallUnity(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
+  sendPath(event: IPCEvents): void {
+    ipcRenderer.send(event.name);
+  },
   changePermissions(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
@@ -36,7 +39,7 @@ const api: PreloadExposed = {
   getDownloadPath(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
-  downloadFile(event: IPCEvents): void {
+  downloadOriginalDaggerfall(event: IPCEvents): void {
     ipcRenderer.send(event.name);
   },
   once(channel: Channels, func: (...args: unknown[]) => void) {

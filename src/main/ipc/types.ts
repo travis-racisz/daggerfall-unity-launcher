@@ -9,7 +9,8 @@ export type IPCEvents =
   | UpdateRemoteFile
   | UpdateGameFilesDirectory
   | GetDownloadPath
-  | DownloadFile;
+  | DownloadOriginalDaggerFall
+  | SendPath;
 
 export type Channels = 'ipc-example';
 export type SendEvent = Event<'sendEvent', { message: string }>;
@@ -22,7 +23,8 @@ export type ChangePermissions = Event<'changePermissions'>;
 export type UpdateRemoteFile = Event<'updateRemoteFile'>;
 export type UpdateGameFilesDirectory = Event<'updateGameFilesDirectory'>;
 export type GetDownloadPath = Event<'getDownloadPath'>;
-export type DownloadFile = Event<'downloadFile'>;
+export type DownloadOriginalDaggerFall = Event<'downloadOriginalDaggerfall'>;
+export type SendPath = Event<'sendPath', { path: string }>;
 export type Once = Event<'once'>;
 
 export type GithubReleaseValues = {
@@ -36,13 +38,14 @@ export interface PreloadExposed {
   launchGame: (event: IPCEvents) => void;
   getRelease: (event: IPCEvents) => void;
   checkReleaseFromConfigFile: (event: IPCEvents) => void;
+  sendPath: (event: IPCEvents) => void;
   checkForNewRelease: (event: IPCEvents) => void;
   downloadDaggerfallUnity: (event: IPCEvents) => void;
   changePermissions: (event: IPCEvents) => void;
   updateRemoteFile: (event: IPCEvents) => void;
   updateGameFilesDirectory: (event: IPCEvents) => void;
   getDownloadPath: (event: IPCEvents) => void;
-  downloadFile: (event: IPCEvents) => void;
+  downloadOriginalDaggerfall: (event: IPCEvents) => void;
   once: (channel: Channels, func: (...args: unknown[]) => void) => void;
   on(
     channel: Channels,

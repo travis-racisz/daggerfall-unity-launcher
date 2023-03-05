@@ -5,8 +5,10 @@ declare global {
     electron: {
       checkForNewRelease(event: IPCEvents): boolean | Error;
       updateRemoteFile(event: IPCEvents): void;
-      downloadFile(event: IPCEvents): void;
+      downloadOriginalDaggerfall(event: IPCEvents): void;
+      sendPath(event: IPCEvents): void;
       sendEvent(event: IPCEvents): void;
+      downloadDaggerfallUnity(event: IPCEvents): void;
       checkReleaseFromConfigFile(event: IPCEvents): string | Error;
       on(
         channel: string,

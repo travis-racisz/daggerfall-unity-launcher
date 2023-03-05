@@ -28,8 +28,6 @@ class AppUpdater {
   }
 }
 
-downloadDaggerfallUnity();
-
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('sendEvent', async (event, arg) => {
@@ -65,6 +63,10 @@ ipcMain.on('checkReleaseFromConfigFile', async (event) => {
 
 ipcMain.on('checkForNewRelease', async (event) => {
   event.reply('ipc-example', await checkForNewRelease());
+});
+
+ipcMain.on('downloadDaggerfallUnity', async (event) => {
+  event.reply('ipc-example', await downloadDaggerfallUnity(mainWindow));
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -146,6 +148,7 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
    new AppUpdater();
+
 };
 
 /**
