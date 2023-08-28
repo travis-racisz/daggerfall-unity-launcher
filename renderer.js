@@ -1,9 +1,8 @@
-
 const body = document.querySelector('body')
-const checkForUpdate = document.getElementById("update")
+//const checkForUpdate = document.getElementById("update")
 const downloadContainer = document.getElementById('download-container')
 const dfDownload = document.getElementById('df-download')
-const updateGame = document.getElementById('update-game')
+// const updateGame = document.getElementById('update-game')
 const directoryName = document.createElement("p")
 const launchGameContainer = document.getElementById('launch-game-container')
 const launchingGame = document.createElement("p")
@@ -17,6 +16,8 @@ const folderToolTip = document.getElementById('folder-tooltip')
 const tooltipText = document.createElement("span")
 const announcmentElement = document.createElement('h2')
 
+// TODO get the status of the download and change the content of the download button
+// to reflect its status ie. Install, Update, or Play
 folderIcon.classList.add("fa-solid")
 folderIcon.classList.add("fa-folder")
 folderIcon.classList.add('margin-left')
@@ -27,65 +28,98 @@ folderIcon.addEventListener('click', () => {
     
 })
 
-updateGame.addEventListener('click', () => { 
-    const downloadPath = window.electron.getDownloadPath()
-    if(!downloadPath) {
-        updateText.innerHTML = 'No Download detected please download the game'
-        return
-    }
-    const progressBar = document.createElement('progress')
-    progressBar.setAttribute('value', '0')
-    progressBar.setAttribute('max', '100')
+function checkForUpdate(){ 
+  window.electron.checkForNewRelease('checkForUpdate')
+    .then(res => { 
+      if(res){
+        return true
 
-    updateContainer.appendChild(updateText)
-    updateContainer.appendChild(progressBar)
-    updateText.innerHTML = `Downloading`
-    window.addEventListener('message', (event) => {
-        console.log(event.data)
-        if(event.data[0] === 'showProgress'){ 
-            progressBar.value = event.data[1]
-        }
-        if(event.data === 'download-complete'){
-            progressBar.value = 0 
-            updateText.innerHTML = 'unzipping files'
-        }
-        if(event.data[0] === 'doneDownloading'){
-            updateContainer.removeChild(progressBar)
-            updateText.innerHTML = 'Update Complete'
-        }
+      } else { 
+        return false
+      }
     })
+    .catch(err => {
+      console.log(err) 
+    }) 
+}
 
-    window.electron.getRelease()    
-        .then(response => { 
-            window.electron.updateRemoteFile(response.name, response.browser_download_url, downloadPath)
-        })
-        currentRelease.innerHTML = "Current Installed: " + downloadPath
-})
+function getInstallStatus(){ 
+ if(window.electron.getCurrentRelease() === "No download"){ 
+    return false
+  } else { 
+    return true 
+  }
+}
 
-checkForUpdate.addEventListener('click', () => {
 
-    console.log('checking for update')
-        window.electron.checkForNewRelease('checkForUpdate')
-            .then(res => { 
-                if(res){
-                    announcmentElement.innerText = "New release available"
-                    
-                } else { 
-                    announcmentElement.innerText = "No new release available"
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-           
-        })
+function setButtonText(){ 
+  if(getInstallStatus()){
+    if(checkForUpdate()){
+      return dfDownload.innerHTML = "Update"
+    }
+    return dfDownload.innerHTML = "Play"
+  } 
+  return dfDownload.innerHTML = "Install"
+}
 
-        const launchGame = document.getElementById("launch-game")
-        launchGame.addEventListener('click', () => {
-            window.electron.launchGame()
-        })
-        
+setButtonText()
 
+//updateGame.addEventListener('click', () => { 
+//    const downloadPath = window.electron.getDownloadPath()
+//    if(!downloadPath) {
+//        updateText.innerHTML = 'No Download detected please download the game'
+//        return
+//    }
+//    const progressBar = document.createElement('progress')
+//    progressBar.setAttribute('value', '0')
+//    progressBar.setAttribute('max', '100')
+//    updateContainer.appendChild(updateText)
+//    updateContainer.appendChild(progressBar)
+//    updateText.innerHTML = `Downloading`
+//    window.addEventListener('message', (event) => {
+//        console.log(event.data)
+//        if(event.data[0] === 'showProgress'){ 
+//            progressBar.value = event.data[1]
+//        }
+//        if(event.data === 'download-complete'){
+//            progressBar.value = 0 
+//            updateText.innerHTML = 'unzipping files'
+//        }
+//        if(event.data[0] === 'doneDownloading'){
+//            updateContainer.removeChild(progressBar)
+//            updateText.innerHTML = 'Update Complete'
+//        }
+//    })
+//
+//    window.electron.getRelease()    
+//        .then(response => { 
+//            window.electron.updateRemoteFile(response.name, response.browser_download_url, downloadPath)
+//        })
+//        currentRelease.innerHTML = "Current Installed: " + downloadPath
+//})
+//
+//checkForUpdate.addEventListener('click', () => {
+//
+//    console.log('checking for update')
+//        window.electron.checkForNewRelease('checkForUpdate')
+//            .then(res => { 
+//                if(res){
+//                    announcmentElement.innerText = "New release available"
+//                    
+//                } else { 
+//                    announcmentElement.innerText = "No new release available" }
+//            })
+//            .catch(err => {
+//                console.log(err) 
+//    }) 
+//}) 
+
+
+//const launchGame = document.getElementById("launch-game") 
+//
+//launchGame.addEventListener('click', () => { 
+//  window.electron.launchGame() 
+//})
 
 
 dfDownload.addEventListener('click', (e) => {
@@ -96,7 +130,9 @@ dfDownload.addEventListener('click', (e) => {
     downloadMessage.classList.remove('hidden')
     progressBar.classList.add('visible')
     downloadMessage.classList.add('visible')
-
+    if(dfDownload.innerText === "Install"){
+      window.electron.unpackDFFiles()
+    }
     window.postMessage({
         type: "download-file"
     })
@@ -136,14 +172,14 @@ dfDownload.addEventListener('click', (e) => {
         if (event.data[0] === 'showProgress') {
             progressBar.setAttribute("value", event.data[1])
             launchGame.disabled = true
-            updateGame.disabled = true
+//            updateGame.disabled = true
             dfDownload.disabled = true
             
         } 
         if(event.data[0] === 'doneDownloading') {
             downloadMessage.innerText = "Download complete"
             launchGame.disabled = false
-            updateGame.disabled = false
+//            updateGame.disabled = false
             dfDownload.disabled = false
             downloadContainer.removeChild(progressBar)
         }
@@ -175,5 +211,5 @@ dfDownload.addEventListener('click', (e) => {
     currentRelease.innerHTML = "Current Installed: " + window.electron.getCurrentRelease()
     folderToolTip.appendChild(folderIcon)
     body.appendChild(directoryName)
-    currentRelease.classList.add("text");
+    currentRelease.classList.add("text")
     

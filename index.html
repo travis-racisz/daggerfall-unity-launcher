@@ -18,9 +18,9 @@
     <script src="https://kit.fontawesome.com/34ac490c52.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="title-flex">
-    <h1 class="title-text">Daggerfall Unity Installer and Updater</h1>
-  </div>
+    <div class = "background-gradient"> 
+      <div class="title-flex">
+        <h1 class="title-text">Daggerfall Unity</h1>
     <div class="desc-flex">
       <div class="small-col-flex">
         <div class="button-flex">
@@ -29,20 +29,23 @@
           <div id = "currently-installed" class="currently-installed">
             <p id = "current-release"></p>
             <div id = "folder-tooltip" class="tooltip">
-              <span class="tooltiptext">Update game files directory</span>
+              <span class="tooltiptext">Test</span>
             </div>
             </div>  
 
           </div>
-          <button class="button" id = "df-download">Download Daggerfall</button>
+              <div class = "df-button-container">
+                <button class="button" id = "df-download"></button>
+                <button class = "button folder-select-button">v</button>
+              </div>
           <progress id = "progress" class="hidden"></progress>
           <p id = "download-message" class="hidden"></p>
         </div>  
         <!-- <button class="button" type="button" id="dirs" value="Download Daggerfall Unity">Download Daggerfall Unity</button> -->
-        <div id = "launch-game-container" class="download-container"> 
-          <button class="button" type="button" id="launch-game" value="Launch Game">Launch Game</button>
+        <!-- <div id = "launch-game-container" class="download-container"> 
+        <!--   <button class="button" type="button" id="launch-game" value="Launch Game">Launch Game</button>
 
-        </div>
+        <!-- </div>
         <div id = "update-container" class="update-container">
           <button class="button" type="button" id="update-game" value="View Mods">Update Game</button>
         </div> 
@@ -52,6 +55,7 @@
       <!-- <img class="art" src="assets/art.gif"></img> -->
       
   </div> 
+  </div>
 </body>
 <script src="./renderer.js"></script>
 </html>
