@@ -2,7 +2,7 @@ node_modules
 *.bat
 *.env
 /token.json
-
+/df
 out/
 /credentials.json
 # Logs

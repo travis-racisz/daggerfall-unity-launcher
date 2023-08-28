@@ -13,7 +13,6 @@ const fs = require('fs-extra');
 const request = require('request')
 const defaultConfig = { 
     gamePath: "", 
-    modsPath: "", 
     executeable: "",
 }
 
@@ -27,12 +26,6 @@ const oldFileDirecotry =  [
 ]
 
 
-
-
-
-
-
-
 function handleUnzip(unzip, isUpdate, dir, file){ 
     if(isUpdate){
        
@@ -40,16 +33,12 @@ function handleUnzip(unzip, isUpdate, dir, file){
         
     }
 }
-
-    
-
-
-
-
-
   contextBridge.exposeInMainWorld('electron', {
-    launchGame: () => { 
-        if(configFile.defaultConfig.executeable){ 
+  unpackDFFiles: () => {
+    ipcRenderer.send("unpack-files")
+  },
+  launchGame: () => { 
+    if(configFile.defaultConfig.executeable){ 
             child_process.exec(`START ${configFile.defaultConfig.executeable}`, {shell: process.env.ComSpec || 'cmd.exe'}, function(err, stdout, stderr) { 
                 if (!err) {
                     console.log(err)
@@ -93,7 +82,7 @@ function handleUnzip(unzip, isUpdate, dir, file){
             }   
     },
 
-    getRelease: async () => { 
+      getRelease: async () => { 
 
         const release = await octokit.request(`GET /repos/interkarma/daggerfall-unity/releases/latest`)
         const platform = process.platform
@@ -208,7 +197,7 @@ function handleUnzip(unzip, isUpdate, dir, file){
                     const baseFiles = fs.readdirSync(dir, {encoding: 'utf8', withFileTypes: true})
                     if(baseFiles){ 
                             for (const file of baseFiles) {
-                                console.log(file)
+                                console.log(file) 
                                 if(file.name === 'arena2'){ 
                                     continue
                                 }
